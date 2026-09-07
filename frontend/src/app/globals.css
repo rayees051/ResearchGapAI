@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+:root {
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  
+  --card: 240 10% 6%;
+  --card-foreground: 0 0% 98%;
+  
+  --popover: 240 10% 5%;
+  --popover-foreground: 0 0% 98%;
+  
+  --primary: 263 70% 60%;
+  --primary-foreground: 210 20% 98%;
+  
+  --secondary: 240 5% 15%;
+  --secondary-foreground: 0 0% 98%;
+  
+  --muted: 240 5% 25%;
+  --muted-foreground: 240 5% 65%;
+  
+  --accent: 263 50% 30%;
+  --accent-foreground: 0 0% 98%;
+  
+  --destructive: 0 85% 60%;
+  --destructive-foreground: 0 0% 98%;
+  
+  --border: 240 5% 15%;
+  --input: 240 5% 15%;
+  --ring: 263 70% 60%;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Premium Visual Utilities */
+.glass {
+  background: rgba(13, 13, 16, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-hover:hover {
+  background: rgba(20, 20, 25, 0.8);
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.05);
+}
+
+.mesh-grid {
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(236, 72, 153, 0.05) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 12, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+/* Force simulation nodes animations */
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+.pulse-node {
+  animation: pulse-slow 3s infinite ease-in-out;
+}
