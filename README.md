@@ -41,8 +41,9 @@ Prioritized Research Directions
 The workflow is orchestrated using LangGraph, allowing specialized agents to operate as interconnected stages while maintaining shared research state.
 
 
-__Key Features__
-🤖 Multi-Agent Research Analysis
+#Key Features
+
+##🤖 Multi-Agent Research Analysis
 
 A specialized LangGraph workflow coordinates multiple AI agents:
 
@@ -53,7 +54,7 @@ Gap Analyzer — identifies potential unresolved research gaps.
 Adaptive Ranking Engine — prioritizes identified gaps using relevance, novelty, feasibility, and impact criteria.
 Synthesis Writer — generates a structured research synthesis and proposed research directions.
 
-__🔎 Academic Literature Retrieval__
+##🔎 Academic Literature Retrieval
 The system integrates academic search services to retrieve relevant publications, including:
 
 Semantic Scholar
@@ -61,8 +62,7 @@ arXiv
 
 Retrieved literature is used as the evidence base for subsequent analysis.
 
-__🧠 Large Language Model Integration__
-
+#🧠 Large Language Model Integration
 Google Gemini is used for AI-powered:
 
 -Query optimization
@@ -70,30 +70,29 @@ Google Gemini is used for AI-powered:
 -Research-gap identification
 -Gap prioritization
 -Literature synthesis
-
-__📚 Retrieval-Augmented Generation__
+##📚 Retrieval-Augmented Generation
 ResearchGapAI follows a retrieval-first approach in which relevant academic literature is obtained before AI-generated analysis.
 
 This helps ground the generated research analysis in retrieved scholarly material rather than relying solely on the language model's internal knowledge.
 
 
-__🧮 Semantic Embeddings__
+##🧮 Semantic Embeddings
 Research content can be represented using semantic embeddings to support similarity-based literature analysis and retrieval workflows.
 
-__📄PDF Processing__
+##📄PDF Processing
 Academic PDFs can be processed and segmented into structured sections using PyMuPDF-based document parsing.
 
-__📊 Research Visualization__
+##📊 Research Visualization
 The frontend provides visual components for:
 Citation relationships
 Research-gap landscapes
 Research project analysis
 Pipeline execution status
 
-__⚡ Asynchronous Processing__
+##⚡ Asynchronous Processing
 Celery and Redis are used for background research-processing tasks, allowing longer literature-analysis workflows to execute asynchronously.
 
-__🔄 Real-Time Pipeline Monitoring__
+##🔄 Real-Time Pipeline Monitoring
 The frontend can receive pipeline execution updates through WebSocket communication, allowing users to monitor the progress of research-analysis stages.
 
 __System Architecture__
@@ -139,7 +138,7 @@ __System Architecture__
                          Research Directions
 
 
-__Supporting Infrastructure__
+##Supporting Infrastructure
 
         ┌──────────────────┐
         │    PostgreSQL    │
@@ -166,7 +165,7 @@ __Supporting Infrastructure__
         │      / arXiv     │
         └──────────────────┘
 
-__Technology Stack__
+##Technology Stack
 
 | Layer                    | Technology                 |
 | ------------------------ | -------------------------- |
@@ -183,7 +182,7 @@ __Technology Stack__
 | API Communication        | REST + WebSockets          |
 | Containerization         | Docker / Docker Compose    |
 
-__Project Structure__
+#Project Structure
 ResearchGapAI/
 │
 ├── backend/
@@ -226,8 +225,9 @@ ResearchGapAI/
 ├── .gitignore
 └── README.md
 
-__Getting Started__
-Prerequisites
+#Getting Started
+
+##Prerequisites
 
 Make sure the following are installed:
 
@@ -239,12 +239,12 @@ Make sure the following are installed:
 -Redis
 If PostgreSQL and Redis are run through Docker Compose, they do not need to be installed separately.
 
-__Environment Configuration__
+#Environment Configuration
 API credentials and private configuration values are intentionally excluded from the repository.
 
 Create your local environment file from the provided template.
 
-___Backend____
+##Backend
 
 cd backend
 copy .env.example .env
@@ -261,35 +261,35 @@ SECRET_KEY=
 OPENAI_API_KEY=
 Never commit the .env file.
 
-___Running with Docker__
+#Running with Docker
 From the project root:
 docker compose up --build
 After the containers start:
 
-___Frontend___
+##Frontend
 
 http://localhost:3000
 
-___Backend API___
+##Backend API
 http://localhost:8000
 
-___FastAPI Swagger Documentation___
+##FastAPI Swagger Documentation
 http://localhost:8000/docs
 
 To stop the services:
 docker compose down
 
-__Running Locally__
+#Running Locally
 
-___Backend___
+##Backend
 Activate the Python environment:
 
-___Windows____
+##Windows
 cd backend
 python -m venv venv
 .\venv\Scripts\activate
 
-___Linux / macOS___
+##Linux / macOS
 cd backend
 python -m venv venv
 source venv/bin/activate
@@ -300,7 +300,7 @@ pip install -r requirements.txt
 Configure backend/.env, then start FastAPI:
 uvicorn app.main:app --reload
 
-___Frontend___
+##Frontend
 Open another terminal:
 cd frontend
 npm install
@@ -308,10 +308,10 @@ npm run dev
 The frontend will be available at:
 http://localhost:3000
 
-__Research Analysis Workflow__
+#Research Analysis Workflow
 A typical ResearchGapAI workflow is:
 
-__1. Create a Research Project__
+##1. Create a Research Project
 
 The user provides a research title and description.
 
@@ -324,15 +324,15 @@ Developing an AI-based system to monitor traffic,
 reduce congestion, and optimize traffic signal timings
 using real-time vehicle data.
 
-___2. Query Optimization___
+##2. Query Optimization
 
 The Query Optimizer Agent transforms the research topic into relevant academic search terms.
 
-___3. Literature Retrieval___
+##3. Literature Retrieval
 
 Relevant publications are retrieved from academic sources.
 
-___4. Literature Critique___
+##4. Literature Critique
 
 The system analyzes retrieved papers and extracts information about:
 
@@ -342,11 +342,11 @@ Experimental approaches
 Limitations
 Unresolved issues
 
-___5. Research Gap Identification___
+##5. Research Gap Identification
 
 The Gap Analyzer identifies potential areas where existing research may be incomplete, limited, or open to further investigation.
 
-___6. Adaptive Ranking___
+##6. Adaptive Ranking
 
 Identified gaps are prioritized using multiple criteria, including:
 
@@ -354,11 +354,11 @@ Novelty
 Relevance
 Feasibility
 Potential impact
-___7. Research Synthesis___
+##7. Research Synthesis
 
 The Synthesis Writer produces a structured research summary and proposes research directions based on the prioritized gaps.
 
-__Testing__
+#Testing
 
 Backend tests are located in:
 
@@ -369,7 +369,7 @@ Run the test suite using:
 cd backend
 pytest
 
-__API Documentation__
+#API Documentation
 
 When the backend is running, interactive API documentation is available through FastAPI:
 
@@ -377,7 +377,7 @@ http://localhost:8000/docs
 
 This provides an interactive interface for exploring and testing available API endpoints.
 
-__Security__
+#Security
 
 ResearchGapAI uses environment variables for sensitive configuration.
 
@@ -390,15 +390,15 @@ API keys should never be placed directly in source code.
 
 Before deploying the system publicly:
 
-Rotate exposed API credentials.
-Use a strong production SECRET_KEY.
-Use secure database credentials.
-Configure production CORS settings.
-Avoid exposing development services publicly.
-Use HTTPS in production.
+-Rotate exposed API credentials.
+-Use a strong production SECRET_KEY.
+-Use secure database credentials.
+-Configure production CORS settings.
+-Avoid exposing development services publicly.
+-Use HTTPS in production.
 
 
-__Research Contribution__
+#Research Contribution
 
 ResearchGapAI focuses on combining several AI techniques into a unified research-analysis workflow:
 
@@ -418,7 +418,7 @@ Automated Research Gap Identification
 
 The framework is intended to reduce the manual effort required to explore academic literature and systematically identify potential research opportunities.
 
-__Future Scope__
+#Future Scope
 
 Potential future improvements include:
 
@@ -433,7 +433,7 @@ Potential future improvements include:
 -Production cloud deployment
 -Support for additional LLM providers
 
-__Project Status__
+##Project Status
 
 Current Status: Active Development
 
@@ -453,13 +453,13 @@ The project currently includes:
 -WebSocket-based pipeline monitoring
 -Backend test suite
 
-__License__
+##_License
 
 This project is intended primarily for academic and educational purposes.
 
 A formal open-source license can be added when the project's distribution terms are finalized.
 
-__Author__
+##Author
 
 Rayees Akbar
 
