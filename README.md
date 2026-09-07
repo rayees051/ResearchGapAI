@@ -1,93 +1,468 @@
-# Adaptive Multi-Agent Framework for Automated Research Gap Identification and Scientific Knowledge Synthesis
+# ResearchGapAI
 
-This is a state-of-the-art research analysis and discovery tool. It leverages a team of cooperative LLM agents managed by a stateful LangGraph execution engine to ingest academic papers, criticize their experimental structures, compare methodologies, and map a landscape of unresolved scientific gaps.
+### Adaptive Multi-Agent Framework for Automated Research Gap Identification and Scientific Knowledge Synthesis
 
----
+ResearchGapAI is an AI-powered research analysis platform designed to assist researchers in discovering potential research gaps from existing academic literature.
 
-## Key Features
-- **Multi-Agent Coordination (LangGraph)**: Directs a specialized graph flow spanning paper retrieval, critique analysis, gap identification, and final literature synthesis writing.
-- **Relational + Vector Store**: Employs PostgreSQL with `pgvector` to index paper segments alongside traditional relational data like logs and gap taxonomies.
-- **Document Segmentation Pipeline**: Uses PyMuPDF heuristics to parse headers and split PDFs into structured context sections.
-- **Real-Time Monitoring**: Streams agent execution state steps dynamically using WebSockets.
-- **Interconnected Dashboards**: A premium Next.js dashboard featuring citation networks, gap landscapes, and an interactive markdown document editor.
+The system combines academic paper retrieval, PDF analysis, Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), embeddings, and a LangGraph-based multi-agent workflow to analyze literature, identify unresolved research areas, prioritize potential gaps, and generate structured research directions.
 
 ---
 
-## System Architecture Layout
-```
+## Overview
+
+Conducting a literature review and identifying meaningful research gaps can require significant time and effort.
+
+ResearchGapAI addresses this challenge through an automated multi-stage pipeline:
+
+```text
+Research Topic
+      │
+      ▼
+Query Optimization Agent
+      │
+      ▼
+Academic Literature Retrieval
+      │
+      ▼
+Paper Critique Agent
+      │
+      ▼
+Research Gap Analyzer
+      │
+      ▼
+Adaptive Ranking Engine
+      │
+      ▼
+Research Synthesis Writer
+      │
+      ▼
+Prioritized Research Directions
+
+The workflow is orchestrated using LangGraph, allowing specialized agents to operate as interconnected stages while maintaining shared research state.
+
+
+__Key Features__
+🤖 Multi-Agent Research Analysis
+
+A specialized LangGraph workflow coordinates multiple AI agents:
+
+Query Optimizer — generates and improves academic search queries from the research topic.
+Literature Retrieval — retrieves relevant academic publications.
+Paper Critique — analyzes research methodologies, approaches, limitations, and experimental structures.
+Gap Analyzer — identifies potential unresolved research gaps.
+Adaptive Ranking Engine — prioritizes identified gaps using relevance, novelty, feasibility, and impact criteria.
+Synthesis Writer — generates a structured research synthesis and proposed research directions.
+
+__🔎 Academic Literature Retrieval__
+The system integrates academic search services to retrieve relevant publications, including:
+
+Semantic Scholar
+arXiv
+
+Retrieved literature is used as the evidence base for subsequent analysis.
+
+__🧠 Large Language Model Integration__
+
+Google Gemini is used for AI-powered:
+
+-Query optimization
+-Literature critique
+-Research-gap identification
+-Gap prioritization
+-Literature synthesis
+
+__📚 Retrieval-Augmented Generation__
+ResearchGapAI follows a retrieval-first approach in which relevant academic literature is obtained before AI-generated analysis.
+
+This helps ground the generated research analysis in retrieved scholarly material rather than relying solely on the language model's internal knowledge.
+
+
+__🧮 Semantic Embeddings__
+Research content can be represented using semantic embeddings to support similarity-based literature analysis and retrieval workflows.
+
+__📄PDF Processing__
+Academic PDFs can be processed and segmented into structured sections using PyMuPDF-based document parsing.
+
+__📊 Research Visualization__
+The frontend provides visual components for:
+Citation relationships
+Research-gap landscapes
+Research project analysis
+Pipeline execution status
+
+__⚡ Asynchronous Processing__
+Celery and Redis are used for background research-processing tasks, allowing longer literature-analysis workflows to execute asynchronously.
+
+__🔄 Real-Time Pipeline Monitoring__
+The frontend can receive pipeline execution updates through WebSocket communication, allowing users to monitor the progress of research-analysis stages.
+
+__System Architecture__
+                         ┌──────────────────────┐
+                         │       User           │
+                         │  Research Question   │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │  Next.js Frontend    │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │    FastAPI Backend   │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │     LangGraph        │
+                         │ Multi-Agent Workflow │
+                         └──────────┬───────────┘
+                                    │
+             ┌──────────────────────┼──────────────────────┐
+             │                      │                      │
+             ▼                      ▼                      ▼
+      Query Optimizer        Literature Retrieval      PDF Analysis
+                                    │
+                                    ▼
+                            Paper Critique Agent
+                                    │
+                                    ▼
+                            Gap Analyzer Agent
+                                    │
+                                    ▼
+                         Adaptive Ranking Engine
+                                    │
+                                    ▼
+                           Synthesis Writer
+                                    │
+                                    ▼
+                         Research Directions
+
+
+__Supporting Infrastructure__
+
+        ┌──────────────────┐
+        │    PostgreSQL    │
+        │ Relational Data  │
+        └──────────────────┘
+
+        ┌──────────────────┐
+        │      Redis       │
+        │ Task / Cache     │
+        └──────────────────┘
+
+        ┌──────────────────┐
+        │      Celery      │
+        │ Background Tasks │
+        └──────────────────┘
+
+        ┌──────────────────┐
+        │   Google Gemini  │
+        │       LLM        │
+        └──────────────────┘
+
+        ┌──────────────────┐
+        │ Semantic Scholar │
+        │      / arXiv     │
+        └──────────────────┘
+
+__Technology Stack__
+
+| Layer                    | Technology                 |
+| ------------------------ | -------------------------- |
+| Frontend                 | Next.js, React, TypeScript |
+| Backend                  | FastAPI, Python            |
+| AI / LLM                 | Google Gemini              |
+| Agent Orchestration      | LangGraph                  |
+| Retrieval                | Semantic Scholar, arXiv    |
+| Document Processing      | PyMuPDF                    |
+| Embeddings               | Gemini Embeddings          |
+| Database                 | PostgreSQL                 |
+| Background Processing    | Celery                     |
+| Caching / Message Broker | Redis                      |
+| API Communication        | REST + WebSockets          |
+| Containerization         | Docker / Docker Compose    |
+
+__Project Structure__
 ResearchGapAI/
-├── backend/            # FastAPI + LangGraph + Celery
+│
+├── backend/
 │   ├── app/
-│   │   ├── agents/     # LangGraph workflows and node tools
-│   │   ├── api/        # REST endpoints and WebSocket stream handlers
-│   │   ├── core/       # DB session, security, config
-│   │   ├── models/     # SQLModel tables (User, Project, Paper, Gap, Log)
-│   │   ├── services/   # Paper search, PDF structuring
-│   │   └── tasks/      # Celery task definitions
-│   └── Dockerfile
-├── frontend/           # Next.js App router web app
+│   │   ├── agents/
+│   │   │   ├── nodes/
+│   │   │   │   ├── analyzer.py
+│   │   │   │   ├── critique.py
+│   │   │   │   ├── optimizer.py
+│   │   │   │   ├── ranking.py
+│   │   │   │   ├── retrieval.py
+│   │   │   │   └── writer.py
+│   │   │   ├── graph.py
+│   │   │   └── state.py
+│   │   │
+│   │   ├── api/
+│   │   ├── core/
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   └── tasks/
+│   │
+│   ├── tests/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── frontend/
 │   ├── src/
-│   │   ├── app/        # Dashboard, projects interfaces
-│   │   └── components/ # UI assets and network visualizers
-│   └── Dockerfile
-├── docker-compose.yml  # Local cluster setup
+│   │   ├── app/
+│   │   ├── components/
+│   │   └── lib/
+│   ├── public/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── package-lock.json
+│
+├── docker-compose.yml
+├── .env.example
+├── .gitignore
 └── README.md
-```
 
----
+__Getting Started__
+Prerequisites
 
-## Getting Started
+Make sure the following are installed:
 
-### Prerequisites
-- Docker & Docker Compose
-- Node.js 18+ (if running frontend locally)
-- Python 3.11+ (if running backend locally)
+-Python 3.11+
+-Node.js 18+
+-Docker Desktop
+-Git
+-PostgreSQL
+-Redis
+If PostgreSQL and Redis are run through Docker Compose, they do not need to be installed separately.
 
-### Quick Start with Docker
-1. Clone the repository and navigate to the directory:
-   ```bash
-   cd ResearchGapAI
-   ```
-2. Copy the template `.env.example` file and configure your API keys:
-   ```bash
-   cp .env.example .env
-   ```
-3. Boot the environment cluster:
-   ```bash
-   docker-compose up --build
-   ```
-4. Access the interfaces:
-   - **Frontend UI**: `http://localhost:3000`
-   - **FastAPI Documentation**: `http://localhost:8000/docs`
+__Environment Configuration__
+API credentials and private configuration values are intentionally excluded from the repository.
 
-### Local Development Setup
+Create your local environment file from the provided template.
 
-#### Backend
-1. Create a virtual environment:
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Set your environment variables (see `.env.example`) and start the server:
-   ```bash
-   uvicorn app.main:app --reload
-   ```
+___Backend____
 
-#### Frontend
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install client dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+cd backend
+copy .env.example .env
+
+Configure the following variables:
+GEMINI_API_KEY=
+SEMANTIC_SCHOLAR_API_KEY=
+
+DATABASE_URL=
+REDIS_URL=
+
+SECRET_KEY=
+
+OPENAI_API_KEY=
+Never commit the .env file.
+
+___Running with Docker__
+From the project root:
+docker compose up --build
+After the containers start:
+
+___Frontend___
+
+http://localhost:3000
+
+___Backend API___
+http://localhost:8000
+
+___FastAPI Swagger Documentation___
+http://localhost:8000/docs
+
+To stop the services:
+docker compose down
+
+__Running Locally__
+
+___Backend___
+Activate the Python environment:
+
+___Windows____
+cd backend
+python -m venv venv
+.\venv\Scripts\activate
+
+___Linux / macOS___
+cd backend
+python -m venv venv
+source venv/bin/activate
+
+Install dependencies:
+pip install -r requirements.txt
+
+Configure backend/.env, then start FastAPI:
+uvicorn app.main:app --reload
+
+___Frontend___
+Open another terminal:
+cd frontend
+npm install
+npm run dev
+The frontend will be available at:
+http://localhost:3000
+
+__Research Analysis Workflow__
+A typical ResearchGapAI workflow is:
+
+__1. Create a Research Project__
+
+The user provides a research title and description.
+
+Example:
+Title:
+Smart Traffic Management Using Artificial Intelligence
+
+Description:
+Developing an AI-based system to monitor traffic,
+reduce congestion, and optimize traffic signal timings
+using real-time vehicle data.
+
+___2. Query Optimization___
+
+The Query Optimizer Agent transforms the research topic into relevant academic search terms.
+
+___3. Literature Retrieval___
+
+Relevant publications are retrieved from academic sources.
+
+___4. Literature Critique___
+
+The system analyzes retrieved papers and extracts information about:
+
+Research methodology
+Techniques used
+Experimental approaches
+Limitations
+Unresolved issues
+
+___5. Research Gap Identification___
+
+The Gap Analyzer identifies potential areas where existing research may be incomplete, limited, or open to further investigation.
+
+___6. Adaptive Ranking___
+
+Identified gaps are prioritized using multiple criteria, including:
+
+Novelty
+Relevance
+Feasibility
+Potential impact
+___7. Research Synthesis___
+
+The Synthesis Writer produces a structured research summary and proposes research directions based on the prioritized gaps.
+
+__Testing__
+
+Backend tests are located in:
+
+backend/tests/
+
+Run the test suite using:
+
+cd backend
+pytest
+
+__API Documentation__
+
+When the backend is running, interactive API documentation is available through FastAPI:
+
+http://localhost:8000/docs
+
+This provides an interactive interface for exploring and testing available API endpoints.
+
+__Security__
+
+ResearchGapAI uses environment variables for sensitive configuration.
+
+The following files must never be committed:
+
+.env
+backend/.env
+
+API keys should never be placed directly in source code.
+
+Before deploying the system publicly:
+
+Rotate exposed API credentials.
+Use a strong production SECRET_KEY.
+Use secure database credentials.
+Configure production CORS settings.
+Avoid exposing development services publicly.
+Use HTTPS in production.
+
+
+__Research Contribution__
+
+ResearchGapAI focuses on combining several AI techniques into a unified research-analysis workflow:
+
+Academic Retrieval
+       +
+NLP / Document Processing
+       +
+LLM-Based Analysis
+       +
+RAG
+       +
+Multi-Agent Collaboration
+       +
+Adaptive Ranking
+       ↓
+Automated Research Gap Identification
+
+The framework is intended to reduce the manual effort required to explore academic literature and systematically identify potential research opportunities.
+
+__Future Scope__
+
+Potential future improvements include:
+
+-Larger academic database integration
+-Improved semantic retrieval
+-Advanced citation analysis
+-Research-trend forecasting
+-Knowledge-graph integration
+-Improved gap-ranking models
+-Automated citation generation
+-User-specific research recommendations
+-Production cloud deployment
+-Support for additional LLM providers
+
+__Project Status__
+
+Current Status: Active Development
+
+The project currently includes:
+
+-Multi-agent research workflow
+-Academic literature retrieval
+-Gemini-based analysis
+-PDF processing
+-Research-gap identification
+-Adaptive gap ranking
+-Research synthesis
+-PostgreSQL persistence
+-Celery background processing
+-Redis support
+-Next.js dashboard
+-WebSocket-based pipeline monitoring
+-Backend test suite
+
+__License__
+
+This project is intended primarily for academic and educational purposes.
+
+A formal open-source license can be added when the project's distribution terms are finalized.
+
+__Author__
+
+Rayees Akbar
+
+ResearchGapAI
+
+Built using Python, FastAPI, Next.js, LangGraph, Google Gemini, PostgreSQL, Redis, and academic literature retrieval services.
