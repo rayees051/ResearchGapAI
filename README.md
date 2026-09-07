@@ -1,8 +1,3 @@
-Absolutely. I cleaned up the Markdown formatting so you can **copy-paste the entire README at once**. I also fixed the headings, bullets, code blocks, tables, and bold formatting.
-
-
-
-````markdown
 # ResearchGapAI
 
 ### Adaptive Multi-Agent Framework for Automated Research Gap Identification and Scientific Knowledge Synthesis
